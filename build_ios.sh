@@ -8,8 +8,7 @@ cd qt5 && git checkout 5.15
 perl init-repository --module-subset=default,-qtwebengine
 # Quick and dirty patch. Should be done using a patch file, when things are running.
 # See https://decovar.dev/blog/2018/02/17/build-qt-statically/
-sed -i qtmultimedia/src/plugins/avfoundation/camera/avfcamerautility.mm -e 's/unary_function/__unary_function/'
-cd ..
+sed -i'' -e 's/unary_function/__unary_function/' qtmultimedia/src/plugins/avfoundation/camera/avfcamerautility.mmd ..
 git clone https://github.com/crystalidea/qt-build-tools.git
 
 rsync -av qt-build-tools/5.15.14/qtbase/ qt5/qtbase
