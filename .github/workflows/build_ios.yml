@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Archive Build
-          path: /Users/runner/work/qt5-builder/QtBuild  
+          path: /Users/runner/work/qt5-builder/QtBuild
   release: 
     name: Release
     runs-on: ubuntu-latest 

@@ -18,5 +18,6 @@ ROOT_DIR=$(pwd)
 #make -j$(sysctl -n hw.ncpu)
 #make install
 mkdir /Users/runner/work/qt5-builder/QtBuild
+touch /Users/runner/work/qt5-builder/QtBuild/test
 cd $ROOT_DIR
 
