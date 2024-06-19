@@ -18,7 +18,7 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v4
       - name: "Upterm debug"
-        if: contains(github.ref_name, 'debug-ios-ci') || contains(github.ref_name, 'debug-release')
+        if: contains(github.ref_name, 'debug-ios-ci')
         uses: owenthereal/action-upterm@v1
         with:
           limit-access-to-actor: true
@@ -35,4 +35,10 @@ jobs:
           file: /Users/runner/work/qt5-builder/QtBuild/*
           tag: ${{ github.ref }}
           overwrite: true
+      - name: "Upterm debug"
+        if: contains(github.ref_name, 'debug-release')
+        uses: owenthereal/action-upterm@v1
+        with:
+          limit-access-to-actor: true
+
 
