@@ -29,7 +29,7 @@ jobs:
           name: Archive Build
           path: /Users/runner/work/qt5-builder/QtBuild
       - name: Tar Build
-        run: tar -czvf Qt-5.15-14-macos.tar.gz /Users/runner/work/qt5-builder/QtBuild
+        run: tar -czvf Qt-5.15-14-macos.tar.gz -C /Users/runner/work/qt5-builder/QtBuild .
       - name: Upload Build to release
         uses: svenstaro/upload-release-action@v2
         with:
