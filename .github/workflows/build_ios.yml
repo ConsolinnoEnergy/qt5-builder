@@ -12,9 +12,9 @@ jobs:
   build-ios:
     runs-on: macos-latest
     steps:
-#      - uses: maxim-lobanov/setup-xcode@v1
-#        with:
-#          xcode-version: '14.3.1'
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0.1'
       - name: "Checkout repo"
         uses: actions/checkout@v4
       - name: "Upterm debug"
@@ -29,12 +29,12 @@ jobs:
           name: Archive Build
           path: /Users/runner/work/qt5-builder/QtBuild
       - name: Tar Build
-        run: tar -czvf Qt-5.15-14-macos.tar.gz -C /Users/runner/work/qt5-builder/QtBuild .
+        run: tar -czvf Qt-5.15-14-macos-xcode-15.0.1.tar.gz -C /Users/runner/work/qt5-builder/QtBuild .
       - name: Upload Build to release
-        #if: github.ref_type == 'tag'
+        if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
-          file: Qt-5.15-14-macos.tar.gz
+          file: Qt-5.15-14-macos-xcode-15.0.1.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
 
