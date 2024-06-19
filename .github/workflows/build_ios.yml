@@ -4,8 +4,8 @@ on:
     branches:
       - main
       - debug-ios-ci
-  tags:
-    - v*
+    tags:
+      - v*
 
 jobs:
   build-ios:
