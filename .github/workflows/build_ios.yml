@@ -31,15 +31,10 @@ jobs:
       - name: Tar Build
         run: tar -czvf Qt-5.15-14-macos.tar.gz -C /Users/runner/work/qt5-builder/QtBuild .
       - name: Upload Build to release
+        #if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
           file: Qt-5.15-14-macos.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
-            #      - name: "Upterm debug"
-            #        if: contains(github.ref_name, 'debug-release')
-            #        uses: owenthereal/action-upterm@v1
-            #        with:
-            #          limit-access-to-actor: true
-
 
