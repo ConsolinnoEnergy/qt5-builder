@@ -8,7 +8,6 @@ cd ..
 wget https://download.qt.io/official_releases/qt/5.15/5.15.14/single/qt-everywhere-opensource-src-5.15.14.tar.xz
 tar xfv qt-everywhere-opensource-src-5.15.14.tar.xz
 
-cd ..
 cd qt-everywhere-src-5.15.14
 
 ./configure \
