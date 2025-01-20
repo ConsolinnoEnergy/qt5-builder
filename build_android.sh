@@ -17,7 +17,7 @@ rsync -av qt-build-tools/5.15.14/qtbase/ qt-everywhere-src-5.15.14/qtbase
 
 cd qt-everywhere-src-5.15.14
 
-export ANDROID_NDK_ROOT=/usr/local/lib/android/sdk/ndk-bundle
+#export ANDROID_NDK_ROOT=/usr/local/lib/android/sdk/ndk-bundle
 
 ./configure \
   -platform linux-clang \ 
