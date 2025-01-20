@@ -9,9 +9,6 @@ wget https://download.qt.io/official_releases/qt/5.15/5.15.14/single/qt-everywhe
 tar xfv qt-everywhere-opensource-src-5.15.14.tar.xz
 
 cd ..
-git clone https://github.com/ConsolinnoEnergy/qt-build-tools.git
-cd qt-build-tools && git checkout 197da8ca95d8552a65fb8de5274cb8f475961d7d && cd ..
-rsync -av qt-build-tools/5.15.14/qtbase/ qt-everywhere-src-5.15.14/qtbase
 cd qt-everywhere-src-5.15.14
 
 ./configure \
