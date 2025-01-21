@@ -18,21 +18,33 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-              build-essential \
-              clang \
-              perl \
-              python3 \
-              ninja-build \
-              libssl-dev \
-              libglu-dev \
-              libx11-dev \
-              libxext-dev \
-              libxfixes-dev \
-              libxi-dev \
-              libxrender-dev \
-              libxkbcommon-dev \
-              libxkbcommon-x11-dev \
-              libbluetooth-dev 
+                  build-essential \
+                  clang \
+                  perl \
+                  python3 \
+                  ninja-build \
+                  libssl-dev \
+                  libbluetooth-dev \
+                  libglu-dev \
+                  libx11-dev \
+                  libxext-dev \
+                  libxfixes-dev \
+                  libxi-dev \
+                  libxrender-dev \
+                  libxkbcommon-dev \
+                  libxkbcommon-x11-dev \
+                  libfreetype6-dev \
+                  libgstreamer1.0-dev \
+                  libgstreamer-plugins-base1.0-dev \
+                  gstreamer1.0-plugins-base \
+                  gstreamer1.0-plugins-good \
+                  gstreamer1.0-plugins-bad \
+                  gstreamer1.0-plugins-ugly \
+                  gstreamer1.0-libav \
+                  libpulse-dev \
+                  libasound2-dev \
+                  bluez \
+                  bluez-tools
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
         uses: owenthereal/action-upterm@v1
