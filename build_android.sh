@@ -10,7 +10,7 @@ tar xfv qt-everywhere-opensource-src-5.15.14.tar.xz
 
 cd qt-everywhere-src-5.15.14
 
-./configure \
+./configure 
   -opensource \
   -confirm-license \
   -release \            
