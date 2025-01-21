@@ -10,19 +10,19 @@ tar xfv qt-everywhere-opensource-src-5.15.14.tar.xz
 
 cd qt-everywhere-src-5.15.14
 
-./configure 
-  -xplatform android-clang \             
-  -android-sdk $ANDROID_SDK_ROOT \        
-  -android-ndk "$ANDROID_SDK_ROOT/ndk/21.4.7075529" \        
-  -android-abis armeabi-v7a, arm64-v8a, x86_64 \         
+./configure \
   -opensource \
   -confirm-license \
-  -release \
+  -release \            
+  -android-sdk $ANDROID_SDK_ROOT \        
+  -android-ndk "$ANDROID_SDK_ROOT/ndk/21.4.7075529" \        
+  -xplatform android-clang \
+  -platform linux-clang \        
   -nomake tests \
   -nomake examples \
-  -skip qtlocation \                      
-  -prefix /home/runner/work/qt5-builder/QtBuild \
-  -no-warnings-are-errors
+  -skip qtlocation \
+  -no-warnings-are-errors \                      
+  -prefix /home/runner/work/qt5-builder/QtBuild 
 
 make -j"$(nproc)"
 make install
