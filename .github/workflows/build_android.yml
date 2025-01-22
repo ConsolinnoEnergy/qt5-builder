@@ -69,7 +69,8 @@ jobs:
                     libwayland-egl1-mesa \
                     libxcomposite-dev \
                     libdrm-dev \
-                    ca-certificates
+                    ca-certificates \
+                    libc6-i386
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
         uses: owenthereal/action-upterm@v1
