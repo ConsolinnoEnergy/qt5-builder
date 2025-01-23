@@ -56,15 +56,15 @@ sudo apt-get update && sudo apt-get install -y \
                     frei0r-plugins \
                     gvfs \
                     i965-va-driver-shaders \
-                    libasound2-doc \ 
+                    libasound2-doc \
                     libcuda1 \
                     libnvcuvid1 \
                     libnvidia-encode1 \
                     libbluray-bdj \
-                    libdirectfb-extra \ 
+                    libdirectfb-extra \
                     libdv-bin \
                     oss-compat \
-                    libdvdcss2 \ 
+                    libdvdcss2 \
                     freetype2-doc \
                     gir1.2-glib-2.0-dev \
                     libglib2.0-doc \
