@@ -59,9 +59,6 @@ sudo apt-get update && sudo apt-get install -y \
                     gvfs \
                     i965-va-driver-shaders \
                     libasound2-doc \
-                    libcuda1 \
-                    libnvcuvid1 \
-                    libnvidia-encode1 \
                     libbluray-bdj \
                     libdirectfb-extra \
                     libdv-bin \
@@ -73,7 +70,6 @@ sudo apt-get update && sudo apt-get install -y \
                     libgdk-pixbuf2.0-bin \
                     libxml2-utils \
                     libvisual-0.4-plugins \
-                    gstreamer1.0-doc \
                     jackd2 \
                     liblrdf0-dev \
                     liblzma-doc \
@@ -95,7 +91,6 @@ sudo apt-get update && sudo apt-get install -y \
                     libx11-doc \
                     libxcb-doc \
                     libxext-doc \
-                    opencl-icd \
                     fluid-soundfont-gm \
                     libvdpau-va-gl1 \
                     libgl1-mesa-dev
