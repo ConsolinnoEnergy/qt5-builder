@@ -15,62 +15,13 @@ jobs:
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
+        
+      - name: Make build script executable
+        run: chmod +x build_android.sh install_dependencies.sh
+
       - name: Install Dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install -y \
-                    build-essential \
-                    clang \
-                    perl \
-                    python3 \
-                    ninja-build \
-                    libssl-dev \
-                    libbluetooth-dev \
-                    libproxy-dev \
-                    libglu-dev \
-                    libx11-dev \
-                    libxext-dev \
-                    libxfixes-dev \
-                    libxi-dev \
-                    libxrender-dev \
-                    libxkbcommon-dev \
-                    libxkbcommon-x11-dev \
-                    libfreetype6-dev \
-                    libfontconfig1-dev \
-                    libpng-dev \
-                    libjpeg-dev \
-                    zlib1g-dev \
-                    libsqlite3-dev \
-                    libgstreamer1.0-dev \
-                    libgstreamer-plugins-base1.0-dev \
-                    gstreamer1.0-plugins-base \
-                    gstreamer1.0-plugins-good \
-                    gstreamer1.0-plugins-bad \
-                    gstreamer1.0-plugins-ugly \
-                    gstreamer1.0-libav \
-                    libpulse-dev \
-                    libasound2-dev \
-                    bluez \
-                    bluez-tools \
-                    libicu-dev \
-                    libxcb1-dev \
-                    libx11-xcb-dev \
-                    libxcb-keysyms1-dev \
-                    libxcb-image0-dev \
-                    libxcb-shm0-dev \
-                    libxcb-icccm4-dev \
-                    libxcb-sync-dev \
-                    libxcb-xfixes0-dev \
-                    mesa-common-dev \
-                    libegl1-mesa-dev \
-                    libgles2-mesa-dev \
-                    libgbm-dev \
-                    libwayland-dev \
-                    libwayland-cursor0 \
-                    libwayland-egl1-mesa \
-                    libxcomposite-dev \
-                    libdrm-dev \
-                    ca-certificates \
-                    libc6-i386
+        run: ./install_dependencies.sh
+
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
         uses: owenthereal/action-upterm@v1
@@ -79,12 +30,10 @@ jobs:
       - uses: actions/setup-java@v3
         with:
             distribution: 'zulu'
-            java-version: '17' 
+            java-version: '17'
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-         
-      - name: Make build script executable
-        run: chmod +x build_android.sh
       
       - name: "Build Android"
         run: ./build_android.sh
