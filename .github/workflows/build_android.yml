@@ -44,8 +44,11 @@ jobs:
           cd qt5
           perl init-repository
       
-      - name: "Build Android"
+      - name: Build Qt Android
         run: ./build_android.sh
+
+      - name: Install Qt Android
+        run: cd qt5 && sudo make install
 
       - name: "Archive Build"
         uses: actions/upload-artifact@v3
