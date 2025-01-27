@@ -2,19 +2,30 @@
 
 sudo apt-get update && sudo apt-get install -y \
     build-essential \
+    libgl1-mesa-dev \
+    libxkbcommon-x11-0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
     perl \
     python3 \
     ninja-build \
+    libbluetooth-dev \
+    libproxy-dev \
     libssl-dev \
     zlib1g-dev \
     libx11-dev \
     libxext-dev \
     libxfixes-dev \
     libxrender-dev \
+    bluez \
+    bluez-tools \
+    libxi-dev \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
     libxcb1-dev \
     libx11-xcb-dev \
+    libglu1-mesa-dev \
+    '^libxcb.*-dev' \
     libxcb-keysyms1-dev \
     libxcb-image0-dev \
     libxcb-shm0-dev \
@@ -37,4 +48,29 @@ sudo apt-get update && sudo apt-get install -y \
     libpulse-dev \
     libproxy-dev \
     ca-certificates \
-    libicu-dev
+    libicu-dev \
+    flex \
+    bison \
+    gperf \
+    libxslt-dev \
+    ruby \
+    libxcursor-dev \
+    libxcomposite-dev \
+    libxdamage-dev \
+    libxrandr-dev \
+    libxtst-dev \
+    libxss-dev \
+    libdbus-1-dev \
+    libevent-dev \
+    libcap-dev \
+    libudev-dev \
+    libpci-dev \
+    libnss3-dev \
+    libasound2-dev \
+    nodejs \
+    libasound2-dev \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-good1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+
