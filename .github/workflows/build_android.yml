@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-      - debug-android-ci
-      - debug-release
       - android_build
     tags:
       - v*
@@ -20,7 +18,7 @@ jobs:
         run: chmod +x build_android.sh install_dependencies.sh
 
       - name: Install Dependencies
-        run: ./install_dependencies.sh
+        run: ./install_dependencies.sh && sudo apt-get install -y openjdk-17-jdk libc6-i386
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
@@ -37,7 +35,7 @@ jobs:
       
       - name: Install Android NDK
         run: sdkmanager --install "ndk;21.4.7075529" "platforms;android-34"
-        
+      
       - name: Download Qt and extract it
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
