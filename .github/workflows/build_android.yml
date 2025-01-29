@@ -27,15 +27,28 @@ jobs:
           limit-access-to-actor: true
       - uses: actions/setup-java@v3
         with:
-            distribution: 'zulu'
-            java-version: '17'
+            java-version: '11'
+            distribution: 'adopt'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Download Android NDK r21e
+        run: |
+          wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip
+          unzip android-ndk-r21e-linux-x86_64.zip -d ~/
+          echo "ANDROID_NDK_ROOT=$HOME/android-ndk-r21e" >> $GITHUB_ENV
       
-      - name: Install Android NDK
-        run: sdkmanager --install "ndk;27.2.12479018" "platforms;android-34" "platform-tools" "build-tools;34.0.0" "cmake;3.22.1" "ndk-bundle"
-      
+      - name: Set up Android SDK
+        run: |
+          mkdir -p ~/Android/Sdk/cmdline-tools
+          wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
+          unzip commandlinetools-linux-10406996_latest.zip -d ~/Android/Sdk/cmdline-tools
+          mv ~/Android/Sdk/cmdline-tools/cmdline-tools ~/Android/Sdk/cmdline-tools/latest
+          echo "ANDROID_SDK_ROOT=$HOME/Android/Sdk" >> $GITHUB_ENV
+
+      - name: Install Android Tools
+        run: |
+          yes | ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+          ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;34.0.0" "platforms;android-34"
+
       - name: Download Qt and extract it
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
