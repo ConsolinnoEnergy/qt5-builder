@@ -39,15 +39,15 @@ jobs:
       - name: Set up Android SDK
         run: |
           mkdir -p ~/Android/Sdk/cmdline-tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-          unzip commandlinetools-linux-10406996_latest.zip -d ~/Android/Sdk/cmdline-tools
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+          unzip commandlinetools-linux-8512546_latest.zip -d ~/Android/Sdk/cmdline-tools
           mv ~/Android/Sdk/cmdline-tools/cmdline-tools ~/Android/Sdk/cmdline-tools/latest
           echo "ANDROID_SDK_ROOT=$HOME/Android/Sdk" >> $GITHUB_ENV
 
       - name: Install Android Tools
         run: |
           yes | ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-          ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;34.0.0" "platforms;android-34"
+          ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;34.0.0" "platforms;android-33"
 
       - name: Download Qt and extract it
         run: |
