@@ -52,7 +52,7 @@ jobs:
         run: cd qt5 && sudo make install
 
       - name: "Archive Build"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Archive Build
           path: /home/runner/work/qt5-builder/QtBuild
