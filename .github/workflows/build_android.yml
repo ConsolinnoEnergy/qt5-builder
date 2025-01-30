@@ -36,7 +36,7 @@ jobs:
           cmdline-tools-version: 8512546
 
       - name: Install Android NDK
-        run: sdkmanager --install "ndk;r21e" "platforms;android-33"
+        run: sdkmanager --install "ndk;21.3.6528147" "platforms;android-33"
 
       - name: Download Qt and extract it
         run: |
