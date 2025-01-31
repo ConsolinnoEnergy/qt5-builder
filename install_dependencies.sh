@@ -76,6 +76,6 @@ sudo apt-get update && sudo apt-get install -y \
     libc6-i386 \
     lib32stdc++6 \
     libclang-11-dev \
-    libc++abi-11-dev \
+    libc++abi1-11-dev \
     llvm-11 \
     ccache
