@@ -72,6 +72,7 @@ sudo apt-get update && sudo apt-get install -y \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-good1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
+    libc++1 \
     libc6-i386 \
     lib32stdc++6 \
     libclang-11-dev \
