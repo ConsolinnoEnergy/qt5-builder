@@ -18,52 +18,33 @@ jobs:
         run: chmod +x build_android.sh install_dependencies.sh
 
       - name: Install Dependencies
-        run: ./install_dependencies.sh && sudo apt-get install -y libc6-i386 libstdc++6 libc6-i386 lib32z1 lib32stdc++6 libglvnd-dev
+        run: ./install_dependencies.sh
 
-      - name: "Upterm debug"
-        if: contains(github.ref_name, 'debug-android-ci')
-        uses: owenthereal/action-upterm@v1
-        with:
-          limit-access-to-actor: true
       - uses: actions/setup-java@v3
         with:
-            java-version: '11'
-            distribution: 'adopt'
+          java-version: '11'
+          distribution: 'adopt'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: 8512546
-          packages: "platforms;android-31 build-tools;31.0.0 ndk;22.1.7171670"
-
-      - name: Install Android NDK
-        run: sdkmanager --install "ndk;22.1.7171670" "platforms;android-31"
+          packages: "platforms;android-31 build-tools;31.0.0 ndk;21.4.7075529"
 
       - name: Download Qt and extract it
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          perl init-repository
-      
+          git submodule update --init --recursive
+
       - name: Build Qt Android
         run: ./build_android.sh
 
       - name: Install Qt Android
-        run: cd qt5 && sudo make install
+        run: cd qt5 && make install
 
       - name: "Archive Build"
         uses: actions/upload-artifact@v4
         with:
           name: Archive Build
           path: /home/runner/work/qt5-builder/QtBuild
-
-      - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-android.tar.gz -C /home/runner/work/qt5-builder/QtBuild .
-
-      - name: "Upload Build to release"
-        if: github.ref_type == 'tag'
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: Qt-5.15-16-android.tar.gz
-          tag: ${{ github.ref }}
-          overwrite: true

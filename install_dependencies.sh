@@ -68,9 +68,13 @@ sudo apt-get update && sudo apt-get install -y \
     libnss3-dev \
     libasound2-dev \
     nodejs \
-    libasound2-dev \
     libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-good1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
-
+    libc6-i386 \
+    lib32stdc++6 \
+    libclang-11-dev \
+    libc++abi-11-dev \
+    llvm-11 \
+    ccache
