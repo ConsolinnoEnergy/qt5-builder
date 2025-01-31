@@ -71,13 +71,11 @@ sudo apt-get update && sudo apt-get install -y \
     libicu-dev \
     libxslt-dev \
     nodejs \
-    libc++1-10\
+    ibc++abi1-10 \
     libc++1 \
     libc6-i386 \
     lib32stdc++6 \
     libclang-11-dev \
-    libc++abi1-11=1:11.0.0-2~ubuntu20.04.1 \
-    libc++abi-11-dev \
     llvm-11 \
     openjdk-8-jdk \
     unzip \
