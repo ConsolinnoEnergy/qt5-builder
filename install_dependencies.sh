@@ -71,7 +71,7 @@ sudo apt-get update && sudo apt-get install -y \
     libicu-dev \
     libxslt-dev \
     nodejs \
-    ibc++abi1-10 \
+    libc++abi1-10 \
     libc++1 \
     libc6-i386 \
     lib32stdc++6 \
