@@ -73,7 +73,9 @@ sudo apt-get update && sudo apt-get install -y \
     nodejs \
     libc++abi1-10 \
     libc++1 \
+    lib32z1 \
     libc6-i386 \
+    libglvnd-dev \
     lib32stdc++6 \
     libclang-11-dev \
     llvm-11 \
