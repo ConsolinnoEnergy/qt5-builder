@@ -30,12 +30,15 @@ jobs:
         with:
           cmdline-tools-version: 8512546
           packages: "platforms;android-31 build-tools;31.0.0 ndk;21.3.6528147"
+      
+      - name: Set symlink to Android NDK
+        run:  rm -rf /usr/local/lib/android/sdk/ndk-bundle; ln -f -s /usr/local/lib/android/sdk/ndk/21.3.6528147 /usr/local/lib/android/sdk/ndk-bundle
 
       - name: Download Qt and extract it
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          sudo perl init-repository
+          perl init-repository
 
       - name: Build Qt Android
         run: ./build_android.sh
