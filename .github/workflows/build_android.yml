@@ -18,7 +18,7 @@ jobs:
         run: chmod +x build_android.sh install_dependencies.sh
 
       - name: Install Dependencies
-        run: ./install_dependencies.sh
+        run: ./install_dependencies.sh && sudo apt-get install -y libc6-i386 libstdc++6 libc6-i386 lib32z1 lib32stdc++6 libglvnd-dev
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
@@ -41,7 +41,7 @@ jobs:
 
       - name: Download Qt and extract it
         run: |
-          git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.gitd
+          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           perl init-repository
       
