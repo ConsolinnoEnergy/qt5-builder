@@ -41,7 +41,7 @@ jobs:
 
       - name: Download Qt and extract it
         run: |
-          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
+          git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.gitd
           cd qt5
           perl init-repository
       
