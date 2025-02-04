@@ -18,24 +18,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Installiere System-Abhängigkeiten
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            git \
-            perl \
-            python3 \
-            pkg-config \
-            libgl1-mesa-dev \
-            libxcb-icccm4-dev \
-            libxcb-image0-dev \
-            libxcb-keysyms1-dev \
-            libxcb-render-util0-dev \
-            libxcb-xinerama0-dev \
-            libxkbcommon-dev \
-            libxkbcommon-x11-dev \
-            openjdk-11-jdk
+      - name: Install Dependencies
+        run: ./install_dependencies.sh && sudo apt-get install -y libc6-i386 libstdc++6 libc6-i386 lib32z1 lib32stdc++6 libglvnd-dev
 
       - name: Android SDK & NDK einrichten
         run: |
@@ -86,3 +70,19 @@ jobs:
         run: |
           cd qt5/build-android
           sudo make install
+          - name: "Archive Build"
+          uses: actions/upload-artifact@v4
+          with:
+            name: Archive Build
+            path: $GITHUB_WORKSPACE/Qt5.15.16/android
+  
+      - name: "Tar Build"
+        run: tar -czvf Qt-5.15-16-android.tar.gz -C $GITHUB_WORKSPACE/Qt5.15.16/android .
+
+      - name: "Upload Build to release"
+        if: github.ref_type == 'tag'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: Qt-5.15-16-android.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
