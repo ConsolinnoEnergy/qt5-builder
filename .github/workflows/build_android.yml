@@ -1,4 +1,4 @@
-name: build-android
+name: Build Qt for Android
 on:
   push:
     branches:
@@ -8,62 +8,82 @@ on:
       - v*
 
 jobs:
-  build-android:
+  build:
     runs-on: ubuntu-20.04
+    env:
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/21.4.7075529
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
     steps:
-      - name: "Checkout repo"
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Make build script executable
-        run: chmod +x build_android.sh install_dependencies.sh
+      - name: Installiere System-Abhängigkeiten
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            git \
+            perl \
+            python3 \
+            pkg-config \
+            libgl1-mesa-dev \
+            libxcb-icccm4-dev \
+            libxcb-image0-dev \
+            libxcb-keysyms1-dev \
+            libxcb-render-util0-dev \
+            libxcb-xinerama0-dev \
+            libxkbcommon-dev \
+            libxkbcommon-x11-dev \
+            openjdk-11-jdk
 
-      - name: Install Dependencies
-        run: ./install_dependencies.sh && sudo apt-get install -y libc6-i386 libstdc++6 libc6-i386 lib32z1 lib32stdc++6 libglvnd-dev
+      - name: Android SDK & NDK einrichten
+        run: |
+          # Erstelle das Verzeichnis für das SDK
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          cd $ANDROID_SDK_ROOT/cmdline-tools
+          # Lade die Command-line Tools herunter (URL ggf. anpassen)
+          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+          unzip cmdline-tools.zip -d tools
+          rm cmdline-tools.zip
+          # Verschiebe in das "latest"-Verzeichnis
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/latest
+          mv tools/* $ANDROID_SDK_ROOT/cmdline-tools/latest/
+          # Akzeptiere Lizenzen und installiere notwendige Pakete
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-30" "build-tools;30.0.3" "ndk;21.4.7075529"
 
-      - name: "Upterm debug"
-        if: contains(github.ref_name, 'debug-android-ci')
-        uses: owenthereal/action-upterm@v1
-        with:
-          limit-access-to-actor: true
-      - uses: actions/setup-java@v3
-        with:
-            java-version: '11'
-            distribution: 'adopt'
+      - name: Exportiere Umgebungsvariablen
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          cmdline-tools-version: 8512546
-          packages: "platforms;android-31 build-tools;31.0.0 ndk;22.1.7171670"
-
-      - name: Install Android NDK
-        run: sdkmanager --install "ndk;22.1.7171670" "platforms;android-31"
-
-      - name: Download Qt and extract it
+      - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           perl init-repository
-      
-      - name: Build Qt Android
-        run: ./build_android.sh
 
-      - name: Install Qt Android
-        run: cd qt5 && sudo make install
+      - name: Qt für Android konfigurieren
+        run: |
+          cd qt5
+          mkdir build-android && cd build-android
+          ../configure -xplatform android-clang \
+            -android-ndk $ANDROID_NDK_ROOT \
+            -android-sdk $ANDROID_SDK_ROOT \
+            -android-ndk-host linux-x86_64 \
+            -prefix $GITHUB_WORKSPACE/Qt5.15.16/android \
+            -nomake examples -nomake tests \
+            -opensource -confirm-license
 
-      - name: "Archive Build"
-        uses: actions/upload-artifact@v4
-        with:
-          name: Archive Build
-          path: /home/runner/work/qt5-builder/QtBuild
+      - name: Qt für Android bauen
+        run: |
+          cd qt5/build-android
+          make -j$(nproc)
 
-      - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-android.tar.gz -C /home/runner/work/qt5-builder/QtBuild .
-
-      - name: "Upload Build to release"
-        if: github.ref_type == 'tag'
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: Qt-5.15-16-android.tar.gz
-          tag: ${{ github.ref }}
-          overwrite: true
+      - name: Qt für Android installieren
+        run: |
+          cd qt5/build-android
+          sudo make install
