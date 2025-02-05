@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
-      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/21.4.7075529
-      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/21.3.6528147
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
           fi
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-31" "build-tools;31.0.0" "ndk;22.1.7171670"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-29" "build-tools;29.0.2" "ndk;21.3.6528147"
 
       - name: Exportiere Umgebungsvariablen
         run: |
