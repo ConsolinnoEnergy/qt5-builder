@@ -67,7 +67,6 @@ jobs:
             -nomake examples -nomake tests \
             -opensource -confirm-license \
             -ltcg \
-            -use-llvm \
             -optimize-size
 
       - name: Qt für Android bauen
