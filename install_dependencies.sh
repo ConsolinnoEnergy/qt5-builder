@@ -53,7 +53,7 @@ sudo apt-get update && sudo apt-get install -y \
     libgstreamer-plugins-good1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
     libopenal-dev \
-    libresourceqt5-dev \
+    qtbase5-dev \
     bluez \
     bluez-tools \
     libbluetooth-dev \
@@ -116,11 +116,7 @@ sudo apt-get update && sudo apt-get install -y \
     llvm-runtime \
     llvm \
     python3-clang \
-    libsensorfw-dev \
     libgps-dev \
-    flite \
-    libflite1 \
-    libflite1-dev \
     libfontconfig1-dev \
     libdbus-1-dev \
     libnss3-dev \
@@ -147,5 +143,4 @@ sudo apt-get update && sudo apt-get install -y \
     libzstd-dev \
     libc-bin \
     libsystemd-dev \
-    libsyslog-dev \
     libpcre2-dev
