@@ -52,18 +52,25 @@ sudo apt-get update && sudo apt-get install -y \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-good1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
+    libopenal-dev \
+    libresourceqt5-dev \
     bluez \
     bluez-tools \
     libbluetooth-dev \
     libssl-dev \
+    libsctp-dev \
     zlib1g-dev \
     libnss3-dev \
     libproxy-dev \
+    libnl-3-dev \
+    libnl-genl-3-dev \
+    libkrb5-dev \
     libfreetype6-dev \
     libfontconfig1-dev \
     libpng-dev \
     libjpeg-dev \
     libdbus-1-dev \
+    libglib2.0-dev \
     libevent-dev \
     libcap-dev \
     libudev-dev \
@@ -108,4 +115,37 @@ sudo apt-get update && sudo apt-get install -y \
     llvm-dev \
     llvm-runtime \
     llvm \
-    python3-clang
+    python3-clang \
+    libsensorfw-dev \
+    libgps-dev \
+    flite \
+    libflite1 \
+    libflite1-dev \
+    libfontconfig1-dev \
+    libdbus-1-dev \
+    libnss3-dev \
+    libc6-dev \
+    net-tools \
+    libre2-dev \
+    libwebp-dev \
+    libopus-dev \
+    libavcodec-dev libavformat-dev libavutil-dev libswresample-dev libswscale-dev \
+    libvpx-dev \
+    libsnappy-dev \
+    zlib1g-dev \
+    libevent-dev \
+    libjsoncpp-dev \
+    protobuf-compiler libprotobuf-dev \
+    libxml2-dev libxslt1-dev \
+    liblcms2-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libharfbuzz-dev \
+    libfreetype6-dev \
+    binutils-gold \
+    pkg-config \
+    libzstd-dev \
+    libc-bin \
+    libsystemd-dev \
+    libsyslog-dev \
+    libpcre2-dev

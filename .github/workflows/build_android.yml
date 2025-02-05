@@ -65,7 +65,10 @@ jobs:
             -prefix $GITHUB_WORKSPACE/Qt5.15.16/android \
             -no-warnings-are-errors \
             -nomake examples -nomake tests \
-            -opensource -confirm-license
+            -opensource -confirm-license \
+            -ltcg \
+            -use-llvm \
+            -optimize-size
 
       - name: Qt für Android bauen
         run: |
