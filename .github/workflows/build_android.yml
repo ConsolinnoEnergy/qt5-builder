@@ -56,7 +56,7 @@ jobs:
         run: |
           cd qt5
           mkdir build-android && cd build-android
-          ../configure -xplatform android-clang \
+          ../configure -xplatform android-g++ \
             --disable-rpath \
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
