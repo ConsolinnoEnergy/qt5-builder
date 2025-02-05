@@ -57,10 +57,13 @@ jobs:
           cd qt5
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
+            --disable-rpath \
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
+            -android-abis armeabi-v7a,arm64-v8a \
             -prefix $GITHUB_WORKSPACE/Qt5.15.16/android \
+            -no-warnings-are-errors \
             -nomake examples -nomake tests \
             -opensource -confirm-license
 
