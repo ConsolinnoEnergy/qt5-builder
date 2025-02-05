@@ -79,7 +79,7 @@ sudo apt-get update && sudo apt-get install -y \
     lib32stdc++6 \
     libclang-11-dev \
     llvm-11 \
-    openjdk-8-jdk \
+    openjdk-11-jdk \
     unzip \
     wget \
     cmake \

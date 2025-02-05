@@ -13,7 +13,7 @@ jobs:
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
       ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/21.3.6528147
-      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
