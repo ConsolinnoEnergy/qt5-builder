@@ -22,13 +22,13 @@ jobs:
         run: chmod +x build_android.sh install_dependencies.sh
 
       - name: Install Dependencies
-        run: ./install_dependencies.sh && sudo apt-get install -y libc6-i386 libstdc++6 libc6-i386 lib32z1 lib32stdc++6 libglvnd-dev
+        run: ./install_dependencies.sh
 
       - name: Android SDK & NDK einrichten
         run: |
           mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
           cd $ANDROID_SDK_ROOT/cmdline-tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O cmdline-tools.zip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
           mkdir -p latest
           unzip -q cmdline-tools.zip -d latest
           rm cmdline-tools.zip
@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
           echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
-          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME/bin" >> $GITHUB_ENV
 
       - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
         run: |
@@ -56,7 +56,7 @@ jobs:
         run: |
           cd qt5
           mkdir build-android && cd build-android
-          ../configure -xplatform android-g++ \
+          ../configure -xplatform android-clang \
             --disable-rpath \
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
