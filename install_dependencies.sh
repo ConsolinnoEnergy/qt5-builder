@@ -60,7 +60,6 @@ sudo apt-get update && sudo apt-get install -y \
     libssl-dev \
     libsctp-dev \
     zlib1g-dev \
-    libnss3-dev \
     libproxy-dev \
     libnl-3-dev \
     libnl-genl-3-dev \
@@ -71,7 +70,6 @@ sudo apt-get update && sudo apt-get install -y \
     libjpeg-dev \
     libdbus-1-dev \
     libglib2.0-dev \
-    libevent-dev \
     libcap-dev \
     libudev-dev \
     libpci-dev \
@@ -117,7 +115,6 @@ sudo apt-get update && sudo apt-get install -y \
     llvm \
     python3-clang \
     libgps-dev \
-    libfontconfig1-dev \
     libdbus-1-dev \
     libnss3-dev \
     libc6-dev \
