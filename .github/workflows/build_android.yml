@@ -74,7 +74,7 @@ jobs:
             -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
-            -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech -skip qtlocation -skip qtwebglplugin \
+            -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech -skip qtlocation -skip qtwebglplugin -skip qtmultimedia \
             -ltcg \
             -optimize-size
 
