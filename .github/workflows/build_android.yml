@@ -78,20 +78,21 @@ jobs:
             -ltcg \
             -optimize-size
 
-      - name: Qt für Android bauen
+      - name: build Qt Android
         run: |
           cd qt5/build-android
-          make -j$(nproc)
+          make -jx
 
-      - name: Qt für Android installieren
+      - name: install Qt Android
         run: |
           cd qt5/build-android
-          sudo make install
-          - name: "Archive Build"
-          uses: actions/upload-artifact@v4
-          with:
-            name: Archive Build
-            path: $GITHUB_WORKSPACE/Qt5.15.16/android
+          make -jx install
+
+      - name: "Archive Build"
+        uses: actions/upload-artifact@v4
+        with:
+          name: Archive Build
+          path: $GITHUB_WORKSPACE/Qt5.15.16/android
   
       - name: "Tar Build"
         run: tar -czvf Qt-5.15-16-android.tar.gz -C $GITHUB_WORKSPACE/Qt5.15.16/android .
