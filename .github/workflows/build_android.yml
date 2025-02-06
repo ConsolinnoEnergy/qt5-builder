@@ -55,11 +55,10 @@ jobs:
 
       - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
         run: |
-          ls
           cd $GITHUB_WORKSPACE
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          perl init-repository
+          git submodule update --init --recursive
 
       - name: Configure Qt for Android
         run: |
@@ -75,7 +74,7 @@ jobs:
             -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
-            -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech \
+            -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech -skip qtlocation \
             -ltcg \
             -optimize-size
 
