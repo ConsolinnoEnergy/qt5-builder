@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
-      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/21.4.7075529
+      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/22.1.7171670
       JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
     steps:
       - name: "Checkout repo"
@@ -38,7 +38,7 @@ jobs:
           fi
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-29" "build-tools;30.0.3" "ndk;21.4.7075529"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;22.1.7171670"
 
       - name: Exportiere Umgebungsvariablen
         run: |
@@ -46,26 +46,36 @@ jobs:
           echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
           echo "JAVA_HOME=$JAVA_HOME/bin" >> $GITHUB_ENV
 
+      - name: Get OpenSSL
+        run: |
+          cd $ANDROID_SDK_ROOT
+          wget https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
+          unzip master.zip
+          mv android_openssl-master android_openssl
+
       - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
         run: |
+          ls
+          cd $GITHUB_WORKSPACE
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           perl init-repository
 
-      - name: Qt für Android konfigurieren
+      - name: Configure Qt for Android
         run: |
           cd qt5
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
-            --disable-rpath \
+            -c++std c++17 \
+            -ssl -openssl-runtime -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1"\
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
-            -android-abis armeabi-v7a,arm64-v8a \
             -prefix $GITHUB_WORKSPACE/Qt5.15.16/android \
-            -no-warnings-are-errors \
+            -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
+            -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech \
             -ltcg \
             -optimize-size
 
