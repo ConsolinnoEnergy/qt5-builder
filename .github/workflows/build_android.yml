@@ -81,12 +81,12 @@ jobs:
       - name: build Qt Android
         run: |
           cd qt5/build-android
-          make -jx
+          make -j$(nproc)
 
       - name: install Qt Android
         run: |
           cd qt5/build-android
-          make -jx install
+          make -j$(nproc) install
 
       - name: "Archive Build"
         uses: actions/upload-artifact@v4
