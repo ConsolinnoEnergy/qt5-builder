@@ -75,3 +75,4 @@ sudo apt-get update && sudo apt-get install -y \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-good1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
+    openjdk-11-jdk 
