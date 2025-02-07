@@ -40,7 +40,6 @@ sudo apt-get update && sudo apt-get install -y \
     libxkbcommon-x11-0 \
     libxcb1-dev \
     libxcb-keysyms1-dev \
-    libxcb-image0-dev \
     libxcb-shm0-dev \
     libxcb-icccm4-dev \
     libxcb-sync-dev \
@@ -112,16 +111,12 @@ sudo apt-get update && sudo apt-get install -y \
     llvm-dev \
     llvm-runtime \
     llvm \
-    python3-clang \
-    libgps-dev \
-    libdbus-1-dev \
     libnss3-dev \
     libc6-dev \
     net-tools \
     libre2-dev \
     libwebp-dev \
     libopus-dev \
-    libavcodec-dev libavformat-dev libavutil-dev libswresample-dev libswscale-dev \
     libvpx-dev \
     libsnappy-dev \
     zlib1g-dev \
@@ -130,8 +125,6 @@ sudo apt-get update && sudo apt-get install -y \
     protobuf-compiler libprotobuf-dev \
     libxml2-dev libxslt1-dev \
     liblcms2-dev \
-    libpng-dev \
-    libjpeg-dev \
     libharfbuzz-dev \
     binutils-gold \
     pkg-config \
