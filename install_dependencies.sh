@@ -52,7 +52,6 @@ sudo apt-get update && sudo apt-get install -y \
     libasound2-dev \
     libpulse-dev \
     libopenal-dev \
-    qtbase5-dev \
     bluez \
     bluez-tools \
     libbluetooth-dev \
@@ -64,8 +63,6 @@ sudo apt-get update && sudo apt-get install -y \
     libnl-genl-3-dev \
     libkrb5-dev \
     libfontconfig1-dev \
-    libpng-dev \
-    libjpeg-dev \
     libdbus-1-dev \
     libglib2.0-dev \
     libcap-dev \

@@ -58,7 +58,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          git submodule update --init --recursive
+          git submodule update --init qtbase qtandroidextras qtcharts qtscxml qttools qtsvg qtxmlpatterns qttranslations qtnetworkauth qtmqtt
 
       - name: Configure Qt for Android
         run: |
@@ -70,7 +70,7 @@ jobs:
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
-            -prefix $GITHUB_WORKSPACE/Qt5.15.16/android \
+            -prefix /home/runner/work/Qt5.15.16/android \
             -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
@@ -90,10 +90,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Archive Build
-          path: $GITHUB_WORKSPACE/Qt5.15.16/android
+          path: /home/runner/work/Qt5.15.16/android
   
       - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-android.tar.gz -C $GITHUB_WORKSPACE/Qt5.15.16/android .
+        run: tar -czvf Qt-5.15-16-android.tar.gz -C /home/runner/work/Qt5.15.16/android .
 
       - name: "Upload Build to release"
         if: github.ref_type == 'tag'
