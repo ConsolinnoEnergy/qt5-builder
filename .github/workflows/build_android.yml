@@ -58,7 +58,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          git submodule update --init qtbase qtandroidextras qtcharts qtscxml qttools qtsvg qtxmlpatterns qttranslations qtnetworkauth qtconnectivity qtremoteobjects qtwebsockets qtquick3d qtquickcontrols2 qtquickcontrols qtquicktimeline
+          git submodule update --init qtbase qtandroidextras qtcharts qtscxml qttools qtsvg qtxmlpatterns qttranslations qtnetworkauth qtconnectivity qtremoteobjects qtwebsockets qtquick3d qtquickcontrols2 qtquickcontrols qtquicktimeline qtdeclarative
 
       - name: Configure Qt for Android
         run: |
