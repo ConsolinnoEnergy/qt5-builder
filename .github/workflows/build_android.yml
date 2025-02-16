@@ -9,7 +9,8 @@ on:
 
 jobs:
   build:
-    runs-on: selfHosted
+    runs-on: 
+    - self-hosted
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
       ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/22.1.7171670
