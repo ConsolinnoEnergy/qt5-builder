@@ -1,131 +1,75 @@
-#!/bin/bash
-
-set -e
-
-#!/bin/bash
-
-set -e
+#!/usr/bin/env bash
 
 sudo apt-get update && sudo apt-get install -y \
     build-essential \
+    libgl1-mesa-dev \
+    libxkbcommon-x11-0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
     perl \
     python3 \
     ninja-build \
-    ccache \
-    flex \
-    bison \
-    gperf \
-    ruby \
-    ca-certificates \
-    libgl1-mesa-dev \
-    libglu1-mesa-dev \
-    libegl1-mesa-dev \
-    libgles2-mesa-dev \
-    mesa-common-dev \
-    libgbm-dev \
+    libbluetooth-dev \
+    libproxy-dev \
+    libssl-dev \
+    zlib1g-dev \
     libx11-dev \
     libxext-dev \
     libxfixes-dev \
     libxrender-dev \
+    bluez \
+    bluez-tools \
     libxi-dev \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
-    libxrandr-dev \
-    libxcursor-dev \
-    libxcomposite-dev \
-    libxdamage-dev \
-    libxtst-dev \
-    libxss-dev \
-    libx11-xcb-dev \
-    libxkbcommon-x11-0 \
     libxcb1-dev \
+    libx11-xcb-dev \
+    libglu1-mesa-dev \
+    '^libxcb.*-dev' \
     libxcb-keysyms1-dev \
+    libxcb-image0-dev \
     libxcb-shm0-dev \
     libxcb-icccm4-dev \
     libxcb-sync-dev \
     libxcb-xfixes0-dev \
-    libxcb-render-util0 \
-    libxcb-xinerama0 \
+    libglu-dev \
+    libegl1-mesa-dev \
+    libgles2-mesa-dev \
+    mesa-common-dev \
+    libgbm-dev \
     libwayland-dev \
     libwayland-cursor0 \
     libwayland-egl1-mesa \
+    libfreetype6-dev \
+    libfontconfig1-dev \
+    libpng-dev \
+    libjpeg-dev \
     libasound2-dev \
     libpulse-dev \
-    libopenal-dev \
-    bluez \
-    bluez-tools \
-    libbluetooth-dev \
-    libssl-dev \
-    libsctp-dev \
-    zlib1g-dev \
     libproxy-dev \
-    libnl-3-dev \
-    libnl-genl-3-dev \
-    libkrb5-dev \
-    libfontconfig1-dev \
+    ca-certificates \
+    libicu-dev \
+    flex \
+    bison \
+    gperf \
+    libxslt-dev \
+    ruby \
+    libxcursor-dev \
+    libxcomposite-dev \
+    libxdamage-dev \
+    libxrandr-dev \
+    libxtst-dev \
+    libxss-dev \
     libdbus-1-dev \
-    libglib2.0-dev \
+    libevent-dev \
     libcap-dev \
     libudev-dev \
     libpci-dev \
-    libicu-dev \
-    libxslt-dev \
-    nodejs \
-    libc++abi1-10 \
-    libc++1 \
-    lib32z1 \
-    libc6-i386 \
-    libglvnd-dev \
-    lib32stdc++6 \
-    libclang-11-dev \
-    llvm-11 \
-    openjdk-11-jdk \
-    unzip \
-    wget \
-    cmake \
-    ant \
-    libstdc++6 \
-    libncurses5 \
-    libncurses5-dev \
-    libncursesw5 \
-    libncursesw5-dev \
-    clang-format \
-    clang-tidy \
-    clang-tools \
-    clang clangd \
-    libc++-dev \
-    libc++1 \
-    libc++abi-dev \
-    libc++abi1 \
-    libclang-dev \
-    libclang1 \
-    liblldb-dev \
-    libllvm-ocaml-dev \
-    libomp-dev \
-    libomp5 \
-    lld \
-    lldb \
-    llvm-dev \
-    llvm-runtime \
-    llvm \
     libnss3-dev \
-    libc6-dev \
-    net-tools \
-    libre2-dev \
-    libwebp-dev \
-    libopus-dev \
-    libvpx-dev \
-    libsnappy-dev \
-    zlib1g-dev \
-    libevent-dev \
-    libjsoncpp-dev \
-    protobuf-compiler libprotobuf-dev \
-    libxml2-dev libxslt1-dev \
-    liblcms2-dev \
-    libharfbuzz-dev \
-    binutils-gold \
-    pkg-config \
-    libzstd-dev \
-    libc-bin \
-    libsystemd-dev \
-    libpcre2-dev
+    libasound2-dev \
+    nodejs \
+    libasound2-dev \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-good1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \

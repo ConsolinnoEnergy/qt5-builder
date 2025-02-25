@@ -2,7 +2,7 @@
 
 cd qt5
 
-./configure -opensource -confirm-license -release -nomake tests -nomake examples -skip qtlocation -skip webglplugin -skip webengine -prefix /home/runner/work/qt5-builder/QtBuild 
+./configure -c++std c++17 -ssl -openssl-runtime -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3" -opensource -confirm-license -release -nomake tests -nomake examples -skip qtlocation -skip webglplugin -skip webengine -prefix /home/runner/work/qt5-builder/QtBuild 
 
 sudo make -j"$(nproc)"
 

@@ -25,6 +25,12 @@ jobs:
         with:
           limit-access-to-actor: true
         
+      - name: Get OpenSSL
+        run: |
+              wget https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
+              unzip master.zip
+              mv android_openssl-master android_openssl
+
       - name: Download Qt and extract it
         run: |
           git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git

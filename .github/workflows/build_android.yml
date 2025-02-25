@@ -1,11 +1,11 @@
 name: Build Qt for Android
 on:
   push:
-    branches:
-      - main
-      - android_build
-    tags:
-      - v*
+    #branches:
+      #- main
+      #- android_build
+    #tags:
+      #- v*
 
 jobs:
   build:
