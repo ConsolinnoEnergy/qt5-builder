@@ -8,9 +8,8 @@ on:
       #- v*
 
 jobs:
-  build:
-    runs-on: 
-    - self-hosted
+  build: 
+    runs-on: ubuntu-20.04
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
       ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/22.1.7171670
