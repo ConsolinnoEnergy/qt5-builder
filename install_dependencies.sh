@@ -38,4 +38,8 @@ sudo apt-get install -y \
   libinput-dev \
   libmtdev-dev \
   libssl-dev \
-  libdbus-1-dev
+  libdbus-1-dev \
+  libxcb-xinerama0 \
+  libwayland-dev \
+  libwayland-cursor0 \
+  libwayland-egl1-mesa \
