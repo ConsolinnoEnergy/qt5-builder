@@ -43,3 +43,8 @@ sudo apt-get install -y \
   libwayland-dev \
   libwayland-cursor0 \
   libwayland-egl1-mesa \
+  '^libxcb.*-dev' \
+  libx11-xcb-dev \
+  libgl1-mesa-dev \
+  libc6
+
