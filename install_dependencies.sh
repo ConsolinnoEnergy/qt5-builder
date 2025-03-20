@@ -46,5 +46,7 @@ sudo apt-get install -y \
   '^libxcb.*-dev' \
   libx11-xcb-dev \
   libgl1-mesa-dev \
-  libc6
+  libc6 \
+  libavahi-common-dev \
+  libavahi-client-dev
 
