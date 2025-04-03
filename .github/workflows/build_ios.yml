@@ -25,7 +25,7 @@ jobs:
           limit-access-to-actor: true
       - run: ./build_ios.sh
       - name: Archive Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Archive Build
           path: /Users/runner/work/qt5-builder/QtBuild
