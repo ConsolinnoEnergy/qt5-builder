@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - android_build
+    #  - android_build
     tags:
       - v*
 
