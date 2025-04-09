@@ -1,0 +1,110 @@
+name: Build Qt for Android
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+
+jobs:
+  build: 
+    runs-on: ubuntu-20.04
+    env:
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/22.1.7171670
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v4
+      
+      - name: Make build script executable
+        run: chmod +x build_android.sh install_dependencies.sh
+
+      - name: Install Dependencies
+        run: | 
+          sudo apt-get update && \
+          sudo apt-get install -y \
+            build-essential ninja-build pkg-config perl python3 openjdk-11-jdk \
+            libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
+            libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
+            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
+
+      - name: Android SDK & NDK einrichten
+        run: |
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          cd $ANDROID_SDK_ROOT/cmdline-tools
+          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+          mkdir -p latest
+          unzip -q cmdline-tools.zip -d latest
+          rm cmdline-tools.zip
+          if [ -d latest/cmdline-tools ]; then
+            mv latest/cmdline-tools/* latest/
+            rmdir latest/cmdline-tools
+          fi
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;22.1.7171670"
+
+      - name: Exportiere Umgebungsvariablen
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME/bin" >> $GITHUB_ENV
+
+      - name: Get OpenSSL
+        run: |
+          cd $ANDROID_SDK_ROOT
+          wget https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
+          unzip master.zip
+          mv android_openssl-master android_openssl
+
+      - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
+        run: |
+          cd $GITHUB_WORKSPACE
+          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
+          cd qt5
+          git submodule update --init --recursive
+          
+
+      - name: Configure Qt for Android
+        run: |
+          cd qt5
+          mkdir build-android && cd build-android
+          ../configure -xplatform android-clang \
+            -c++std c++17 \
+            -ssl -openssl-runtime -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1"\
+            -android-ndk $ANDROID_NDK_ROOT \
+            -android-sdk $ANDROID_SDK_ROOT \
+            -android-ndk-host linux-x86_64 \
+            -prefix /home/runner/work/Qt5.15.16/android \
+            -no-warnings-are-errors --disable-rpath \
+            -nomake examples -nomake tests \
+            -opensource -confirm-license \
+            -skip qtlocation -skip qtmultimedia -skip qtpurchasing -skip qtwebengine -skip qtwebglplugin
+
+      - name: build Qt Android
+        run: |
+          cd qt5/build-android
+          make -j$(nproc)
+
+      - name: install Qt Android
+        run: |
+          cd qt5/build-android
+          make -j$(nproc) install
+
+      - name: "Archive Build"
+        uses: actions/upload-artifact@v4
+        with:
+          name: Archive Build
+          path: /home/runner/work/Qt5.15.16/android
+  
+      - name: "Tar Build"
+        run: tar -czvf Qt-5.15-16-android.tar.gz -C /home/runner/work/Qt5.15.16/android .
+
+      - name: "Upload Build to release"
+        if: github.ref_type == 'tag'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: Qt-5.15-16-android.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
