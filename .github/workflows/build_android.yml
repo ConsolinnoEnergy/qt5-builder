@@ -68,7 +68,7 @@ jobs:
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
             -c++std c++17 \
-            -ssl -openssl-linked -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_3/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_3"\
+            -ssl -openssl-runtime -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1"\
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
