@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
-        
+
       - name: Install Dependencies
         run: | 
           sudo apt-get update && \
@@ -68,7 +68,7 @@ jobs:
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
             -c++std c++17 \
-            -ssl -openssl-linked -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3"\
+            -ssl -openssl-runtime -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3"\
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
