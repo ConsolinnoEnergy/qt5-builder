@@ -2,12 +2,11 @@ name: build-ios
 on:
   push:
     branches:
-      #- main
+      - main
       - debug-ios-ci
       - debug-release
-      #- android_build
-    #tags:
-      #- v*
+    tags:
+      - v*
 
 jobs:
   build-ios:
