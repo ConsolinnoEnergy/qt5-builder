@@ -15,10 +15,7 @@ jobs:
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
-      
-      - name: Make build script executable
-        run: chmod +x build_android.sh install_dependencies.sh
-
+        
       - name: Install Dependencies
         run: | 
           sudo apt-get update && \
