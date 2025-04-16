@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo apt-get update
 sudo apt-get install -y \
   build-essential \
@@ -43,10 +44,25 @@ sudo apt-get install -y \
   libwayland-dev \
   libwayland-cursor0 \
   libwayland-egl1-mesa \
+  libgles2-mesa-dev \
   '^libxcb.*-dev' \
   libx11-xcb-dev \
   libgl1-mesa-dev \
   libc6 \
   libavahi-common-dev \
-  libavahi-client-dev
-
+  libavahi-client-dev \
+  libicu-dev \
+  libpng-dev \
+  libjpeg-dev \
+  libwebp-dev \
+  libxcb-util0-dev \
+  libxcb-xinerama0-dev \
+  libnss3-dev \
+  libnspr4-dev \
+  libxss-dev \
+  libdrm-dev \
+  libgbm-dev \
+  libsqlite3-dev \
+  libxcomposite-dev \
+  libxcursor-dev \
+  libxdamage-dev
