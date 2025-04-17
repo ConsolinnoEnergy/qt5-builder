@@ -60,7 +60,7 @@ jobs:
           nmake install
 
       - name: Upload Qt build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qt-5.15.16-windows
           path: qt-install
