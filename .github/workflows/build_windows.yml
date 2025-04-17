@@ -1,0 +1,65 @@
+name: Build Qt 5.15.16 on Windows
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*]
+  
+
+jobs:
+  build-qt:
+    runs-on: windows-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.38"
+      - run: cpanm --installdeps .
+      - run: prove -lv t
+
+      - name: Install build tools
+        run: |
+          choco install -y python2
+          choco install -y ninja
+
+      - name: Download Qt 5.15.16 source
+        run: |
+          Invoke-WebRequest ` https://download.qt.io/archive/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.zip `-OutFile qt-src.zip
+          Expand-Archive qt-src.zip -DestinationPath qt-src
+
+      - name: Prepare build directory
+        run: |
+          md qt-build
+          md qt-install
+
+      - name: Configure Qt (MSVC 2019)
+        working-directory: qt-src/qt-everywhere-opensource-src-5.15.16
+        run: |
+          perl configure.bat ^
+            -prefix "%CD%\..\qt-install" ^
+            -opensource -confirm-license ^
+            -nomake examples -nomake tests ^
+            -platform win32-msvc2019 ^
+            -opengl desktop ^
+            -skip qtwebengine
+
+      - name: Build Qt
+        working-directory: qt-src/qt-everywhere-opensource-src-5.15.16
+        run: |
+          nmake
+
+      - name: Install Qt
+        working-directory: qt-src/qt-everywhere-opensource-src-5.15.16
+        run: |
+          nmake install
+
+      - name: Upload Qt build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: qt-5.15.16-windows
+          path: qt-install
