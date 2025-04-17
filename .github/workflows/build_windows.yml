@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - v*]
+      - v*
   
 
 jobs:
@@ -13,12 +13,13 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
-          perl-version: "5.38"
+          perl-version: "5.34"
+      - run: perl -V
       - run: cpanm --installdeps .
       - run: prove -lv t
 
