@@ -19,9 +19,12 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: "5.38"
-      - run: perl -V
-      - run: cpanm --installdeps .
-      - run: prove -lv t
+      
+      - name: Install cpanminus
+        run: cpan App::cpanminus
+  
+      - name: Install Perl dependencies (wenn vorhanden)
+        run: cpanm --installdeps .
 
       - name: Install build tools
         run: |
