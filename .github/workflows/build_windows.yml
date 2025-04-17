@@ -1,4 +1,4 @@
-name: Build Qt 5.15.16 on Windows
+name: build windows
 
 on:
   workflow_dispatch:
