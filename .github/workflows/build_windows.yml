@@ -25,9 +25,13 @@ jobs:
           choco install -y python2
           choco install -y ninja
 
-      - name: Download Qt 5.15.16 source
+      - name: Download & extract Qt source
+        shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://download.qt.io/archive/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.zip" -OutFile qt-src.zip
+          Invoke-WebRequest `
+            -Uri "https://download.qt.io/archive/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.zip" `
+            -OutFile qt-src.zip
+          
           Expand-Archive -Path qt-src.zip -DestinationPath qt-src
 
       - name: Prepare build directory
