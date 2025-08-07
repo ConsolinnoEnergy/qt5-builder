@@ -4,7 +4,7 @@ sudo apt-get install -y \
   g++ \
   make \
   perl \
-  python3 \
+  python2 \
   git \
   pkg-config \
   bison \
@@ -48,5 +48,11 @@ sudo apt-get install -y \
   libgl1-mesa-dev \
   libc6 \
   libavahi-common-dev \
-  libavahi-client-dev
-
+  libavahi-client-dev \
+  libwebp-dev \
+  libjpeg-dev \
+  libpng-dev \
+  libharfbuzz-dev \
+  libsqlite3-dev \
+  zlib1g-dev \
+  libicu-dev
