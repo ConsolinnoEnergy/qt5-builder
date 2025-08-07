@@ -2,8 +2,6 @@ name: Build Qt for Android
 on:
   workflow_dispatch:
   push:
-    tags:
-      - v*
 
 jobs:
   build: 
