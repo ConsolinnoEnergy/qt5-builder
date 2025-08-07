@@ -5,6 +5,7 @@ sudo apt-get install -y \
   make \
   perl \
   python2.7 \
+  python-is-python2 \
   git \
   pkg-config \
   bison \
