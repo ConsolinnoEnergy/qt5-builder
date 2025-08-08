@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
@@ -16,7 +16,13 @@ jobs:
         run: chmod +x build_linux.sh install_dependencies.sh
 
       - name: Install Dependencies
-        run: ./install_dependencies.sh
+        run: | 
+          sudo apt-get update && \
+          sudo apt-get install -y \
+            build-essential ninja-build pkg-config perl python3 openjdk-11-jdk \
+            libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
+            libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
+            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
