@@ -22,10 +22,15 @@ jobs:
             build-essential ninja-build pkg-config perl python3 openjdk-11-jdk \
             libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
             libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
-            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
-      
-      - name: Install Dependencies for linux
-        run: ./install_dependencies.sh
+            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf \
+            libfontconfig1-dev libfreetype6-dev libx11-xcb-dev libxcb1-dev \
+            libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev \
+            libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev \
+            libxcb-randr0-dev libxcb-render-util0-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev libfontconfig-dev \
+            libdrm-dev libxcomposite-dev libxss-dev 
+      #- name: Install Dependencies for linux
+      #  run: ./install_dependencies.sh
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
