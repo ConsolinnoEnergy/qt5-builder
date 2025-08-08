@@ -23,6 +23,9 @@ jobs:
             libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
             libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
             libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
+      
+      - name: Install Dependencies for linux
+        run: ./install_dependencies.sh
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')

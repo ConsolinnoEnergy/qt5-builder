@@ -1,7 +1,6 @@
 name: build-ios 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   build-ios:
