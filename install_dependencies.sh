@@ -4,7 +4,7 @@ sudo apt-get install -y \
   g++ \
   make \
   perl \
-  python2.7 \
+  python3 \
   git \
   pkg-config \
   bison \
@@ -55,10 +55,4 @@ sudo apt-get install -y \
   libharfbuzz-dev \
   libsqlite3-dev \
   zlib1g-dev \
-  libicu-dev \
-  libqt5core5a \
-  libqt5gui5 \
-  libqt5network5 \
-  libqt5qml5 \
-  libqt5webchannel5 \
-  libqt5webenginecore5
+  libicu-dev 
