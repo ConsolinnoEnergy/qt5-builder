@@ -6,7 +6,7 @@ on:
       - v*
 
 env:
-  QT_PREFIX: ${{ github.workspace }}/Qt/5.15.16
+  QT_PREFIX: ${{ github.workspace }}
 
 jobs:
   build-linux:
