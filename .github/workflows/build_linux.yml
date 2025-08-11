@@ -81,8 +81,19 @@ jobs:
         run: | 
           cd qt5 && sudo make install
 
-      - name: "qt-5.15.16-core-webview"
+      - name: "Archive Build"
         uses: actions/upload-artifact@v4
         with:
-          name: qt-5.15.16-core-webview
-          path: ${{ env.QT_PREFIX }}
+          name: Archive Build
+          path: /home/runner/work/qt5-builder/QtBuild
+
+      - name: "Tar Build"
+        run: tar -czvf Qt-5.15-16-linux.tar.gz -C /home/runner/work/qt5-builder/QtBuild .
+
+      - name: "Upload Build to release"
+        if: github.ref_type == 'tag'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: Qt-5.15-16-linux.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
