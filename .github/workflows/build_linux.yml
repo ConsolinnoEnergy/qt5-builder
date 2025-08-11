@@ -55,7 +55,9 @@ jobs:
           perl init-repository
       
       - name: Build Qt Linux
-        run: ./build_linux.sh
+        run: |
+           echo ${{env.QT_PREFIX}}
+           ./build_linux.sh
 
       - name: Install Qt Linux
         run: |
