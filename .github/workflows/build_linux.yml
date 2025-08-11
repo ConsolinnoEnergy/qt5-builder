@@ -6,7 +6,7 @@ on:
       - v*
 
 env:
-  QT_PREFIX: ${{ github.workspace }}
+  QT_PREFIX: "/home/runner/work/qt5-builder/QtBuild"
 
 jobs:
   build-linux:
@@ -115,7 +115,7 @@ jobs:
           PKG_CONFIG_PATH: /usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
         run: |
           cd qt5/qtwebengine
-          "${QT_PREFIX}/bin/qmake"
+          "${{ env.QT_PREFIX }}/bin/qmake"
           make -j"$(nproc)"
           make install
 
