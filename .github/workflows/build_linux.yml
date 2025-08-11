@@ -10,7 +10,7 @@ env:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
@@ -18,20 +18,28 @@ jobs:
       - name: Make build script executable
         run: chmod +x build_linux.sh install_dependencies.sh
 
-      #- name: Install Dependencies
-      #  run: | 
-      #    sudo apt-get update && \
-      #    sudo apt-get install -y \
-      #      build-essential ninja-build pkg-config perl python3 openjdk-11-jdk \
-      #      libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
-      #      libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
-      #      libssl-dev libdbus-1-dev libpulse-dev flex bison gperf \
-      #      libfontconfig1-dev libfreetype6-dev libx11-xcb-dev libxcb1-dev \
-      #      libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev \
-      #      libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev \
-      #      libxcb-randr0-dev libxcb-render-util0-dev \
-      #      libxkbcommon-dev libxkbcommon-x11-dev libfontconfig-dev \
-      #      libdrm-dev libxcomposite-dev libxss-dev
+      - name: Add 16G swap to reduce OOM risks
+        run: |
+          sudo fallocate -l 16G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1G count=16
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          sudo sysctl vm.swappiness=10
+
+      - name: Install Dependencies
+        run: | 
+          sudo apt-get update && \
+          sudo apt-get install -y \
+            build-essential ninja-build pkg-config perl openjdk-11-jdk \
+            libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
+            libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
+            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf \
+            libfontconfig1-dev libfreetype6-dev libx11-xcb-dev libxcb1-dev \
+            libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev \
+            libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev \
+            libxcb-randr0-dev libxcb-render-util0-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev libfontconfig-dev \
+            libdrm-dev libxcomposite-dev libxss-dev
 
       - name: Install Dependencies for linux
         run: ./install_dependencies.sh
@@ -63,75 +71,18 @@ jobs:
         run: |
           echo "${QT_PREFIX}/bin" >> $GITHUB_PATH
           cd qt5 && sudo make install
-            
+      
+      - name: make Qt Webview
+        run: |
+          ./configure -c++std c++17 -ssl -openssl-linked -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3" -opensource -confirm-license -release -nomake tests -nomake examples -skip qtmultimedia -skip qtpurchasing -no-webengine-jumbo-build -no-warnings-are-errors -no-opengl -qt-libjpeg -qt-libpng -prefix /home/runner/work/qt5-builder/QtBuild
+          make -j"$(nproc)"
+      
+      - name: Install Qt Webview Build
+        run: | 
+          cd qt5 && sudo make install
+
       - name: "qt-5.15.16-core-webview"
         uses: actions/upload-artifact@v4
         with:
           name: qt-5.15.16-core-webview
           path: ${{ env.QT_PREFIX }}
-  
-  qt-webengine:
-    runs-on: ubuntu-latest
-    needs: build-linux
-    steps:
-      - name: "Checkout repo"
-        uses: actions/checkout@v4
-
-      - name: Restore Qt from Qt Core 
-        uses: actions/download-artifact@v4
-        with:
-          name: qt-5.15.16-core-webview
-          path: ${{ env.QT_PREFIX }}
-      
-      - name: Install extra deps for QtWebEngine
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            python3 pkg-config nodejs ruby \
-            libnss3-dev libasound2-dev libpulse-dev libcups2-dev \
-            libxcomposite-dev libxdamage-dev libxrandr-dev libxtst-dev \
-            libdrm-dev libgbm-dev libxss-dev libxshmfence-dev libxkbfile-dev \
-            libpci-dev libudev-dev libcap-dev
-
-      - name: Add 16G swap to reduce OOM risks
-        run: |
-          sudo fallocate -l 16G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1G count=16
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
-          sudo sysctl vm.swappiness=10
-
-      - name: Download Qt WebEngine
-        run: |
-          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qtwebengine.git
-          cd qt5
-          perl init-repository --module-subset=qtwebengine
-          cd qtwebengine
-          git submodule update --init --recursive
-
-      - name: Build Qt WebEngine
-        env:
-          PATH: ${{ env.QT_PREFIX }}/bin:${{ env.PATH }}
-          PKG_CONFIG_PATH: /usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
-        run: |
-          cd qt5/qtwebengine
-          "${{ env.QT_PREFIX }}/bin/qmake"
-          make -j"$(nproc)"
-          make install
-
-      - name: "Archive Build"
-        uses: actions/upload-artifact@v4
-        with:
-          name: Archive Build
-          path: ${{ env.QT_PREFIX }}
-
-      - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-linux.tar.gz -C ${{ env.QT_PREFIX }} .
-
-      - name: "Upload Build to release"
-        if: github.ref_type == 'tag'
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: Qt-5.15-16-linux.tar.gz
-          tag: ${{ github.ref }}
-          overwrite: true

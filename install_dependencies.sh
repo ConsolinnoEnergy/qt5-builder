@@ -4,7 +4,7 @@ sudo apt-get install -y \
   g++ \
   make \
   perl \
-  python3 \
+  python2 \
   git \
   pkg-config \
   bison \
