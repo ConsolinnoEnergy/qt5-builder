@@ -74,8 +74,9 @@ jobs:
       
       - name: make Qt Webview
         run: |
+          cd qt5
           ./configure -c++std c++17 -ssl -openssl-linked -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3" -opensource -confirm-license -release -nomake tests -nomake examples -skip qtmultimedia -skip qtpurchasing -no-webengine-jumbo-build -no-warnings-are-errors -no-opengl -qt-libjpeg -qt-libpng -prefix /home/runner/work/qt5-builder/QtBuild
-          make -j"$(nproc)"
+          sudo make -j"$(nproc)"
       
       - name: Install Qt Webview Build
         run: | 
