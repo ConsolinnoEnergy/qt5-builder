@@ -5,26 +5,15 @@ on:
     tags:
       - v*
 
-env:
-  QT_PREFIX: "/home/runner/work/qt5-builder/QtBuild"
-
 jobs:
   build-linux:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
 
       - name: Make build script executable
         run: chmod +x build_linux.sh install_dependencies.sh
-
-      #- name: Add 16G swap to reduce OOM risks
-      #  run: |
-      #    sudo fallocate -l 16G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1G count=16
-      #    sudo chmod 600 /swapfile
-      #    sudo mkswap /swapfile
-      #    sudo swapon /swapfile
-      #    sudo sysctl vm.swappiness=10
 
       - name: Install Dependencies
         run: | 
@@ -39,7 +28,17 @@ jobs:
             libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev \
             libxcb-randr0-dev libxcb-render-util0-dev \
             libxkbcommon-dev libxkbcommon-x11-dev libfontconfig-dev \
-            libdrm-dev libxcomposite-dev libxss-dev libnss3 libnss3-dev
+            libdrm-dev libxcomposite-dev libxss-dev \
+            libgtk-3-dev \
+            libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev \
+            libasound2-dev \
+            libv4l-dev \
+            libnss3-dev \
+            libxtst-dev \
+            libudev-dev \
+            libappindicator3-dev \
+            libxss-dev
 
       - name: Install Dependencies for linux
         run: ./install_dependencies.sh
@@ -58,30 +57,18 @@ jobs:
 
       - name: Download Qt and extract it
         run: |
-          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
+          git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           perl init-repository
       
       - name: Build Qt Linux
         run: |
-           echo ${{env.QT_PREFIX}}
-           ./build_linux.sh
+          ./build_linux.sh
 
       - name: Install Qt Linux
         run: |
-          echo "${QT_PREFIX}/bin" >> $GITHUB_PATH
           cd qt5 && sudo make install
-      
-      - name: make Qt Webview
-        run: |
-          cd qt5
-          ./configure -c++std c++17 -ssl -openssl-linked -I "/home/runner/work/master/android_openssl/ssl_3/include" -L "/home/runner/work/master/android_openssl/ssl_3" -opensource -confirm-license -release -nomake tests -nomake examples -skip qtmultimedia -skip qtpurchasing -no-webengine-jumbo-build -no-warnings-are-errors -no-opengl -qt-libjpeg -qt-libpng -prefix /home/runner/work/qt5-builder/QtBuild
-          sudo make -j"$(nproc)"
-      
-      - name: Install Qt Webview Build
-        run: | 
-          cd qt5 && sudo make install
-
+            
       - name: "Archive Build"
         uses: actions/upload-artifact@v4
         with:
@@ -89,12 +76,12 @@ jobs:
           path: /home/runner/work/qt5-builder/QtBuild
 
       - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-linux.tar.gz -C /home/runner/work/qt5-builder/QtBuild .
+        run: tar -czvf Qt-5.15-17-linux.tar.gz -C /home/runner/work/qt5-builder/QtBuild .
 
       - name: "Upload Build to release"
         if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
-          file: Qt-5.15-16-linux.tar.gz
+          file: Qt-5.15-17-linux.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
