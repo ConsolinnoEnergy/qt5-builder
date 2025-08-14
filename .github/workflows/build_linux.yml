@@ -38,7 +38,8 @@ jobs:
             libxtst-dev \
             libudev-dev \
             libappindicator3-dev \
-            libxss-dev
+            libxss-dev \
+            libunwind-dev
 
       - name: Install Dependencies for linux
         run: ./install_dependencies.sh
