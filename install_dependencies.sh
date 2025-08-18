@@ -1,6 +1,6 @@
 sudo apt-get update
 sudo apt-get install -y \
-  build-essential clang lld ninja-build cmake perl python2.7 pkg-config git nodejs \
+  build-essential clang lld ninja-build cmake perl python3 pkg-config git nodejs \
   gperf bison flex \
   libgl1-mesa-dev libglu1-mesa-dev \
   libx11-dev libx11-xcb-dev libxcb1-dev libxcb-util-dev \

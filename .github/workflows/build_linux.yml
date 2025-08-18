@@ -43,6 +43,10 @@ jobs:
 
       - name: Install Dependencies for linux
         run: ./install_dependencies.sh
+      
+      - name: Install python lib
+        run: |
+          sudo pip3 install html5lib beautifulsoup4 requests
 
       - name: "Upterm debug"
         if: contains(github.ref_name, 'debug-android-ci')
