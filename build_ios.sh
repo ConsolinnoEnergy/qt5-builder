@@ -14,7 +14,7 @@ git clone https://github.com/ConsolinnoEnergy/qt-build-tools.git
 cd qt-build-tools && git checkout 197da8ca95d8552a65fb8de5274cb8f475961d7d && cd ..
 rsync -av qt-build-tools/5.15.14/qtbase/ qt-everywhere-src-5.15.14/qtbase
 cd qt-everywhere-src-5.15.14
-./configure QMAKE_APPLE_DEVICE_ARCHS="arm64" -opensource -confirm-license -nomake examples -nomake tests -xplatform macx-ios-clang -release -no-openssl -securetransport -skip qtlocation -prefix /Users/runner/work/qt5-builder/QtBuild
+./configure QMAKE_APPLE_DEVICE_ARCHS="arm64 x86_64" -opensource -confirm-license -nomake examples -nomake tests -xplatform macx-ios-clang -sdk iphonesimulator -release -no-openssl -securetransport -skip qtlocation -prefix /Users/runner/work/qt5-builder/QtBuild
 
 make -j$(sysctl -n hw.ncpu)
 make install
