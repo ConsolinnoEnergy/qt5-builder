@@ -54,10 +54,10 @@ jobs:
           unzip master.zip
           mv android_openssl-master android_openssl
 
-      - name: Qt-Quellcode klonen und Version 5.15.16 auschecken
+      - name: Qt-Quellcode klonen und Version 5.15.17 auschecken
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --branch v5.15.16-lts-lgpl https://invent.kde.org/qt/qt/qt5.git
+          git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           git submodule update --init --recursive
           
@@ -72,7 +72,7 @@ jobs:
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
-            -prefix /home/runner/work/Qt5.15.16/android \
+            -prefix /home/runner/work/Qt5.15.17/android \
             -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
@@ -92,15 +92,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Archive Build
-          path: /home/runner/work/Qt5.15.16/android
-  
+          path: /home/runner/work/Qt5.15.17/android
+
       - name: "Tar Build"
-        run: tar -czvf Qt-5.15-16-android.tar.gz -C /home/runner/work/Qt5.15.16/android .
+        run: tar -czvf Qt-5.15-17-android.tar.gz -C /home/runner/work/Qt5.15.17/android .
 
       - name: "Upload Build to release"
         if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
-          file: Qt-5.15-16-android.tar.gz
+          file: Qt-5.15-17-android.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
