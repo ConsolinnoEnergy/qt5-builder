@@ -1,4 +1,5 @@
 name: Build Qt for Android
+
 on:
   workflow_dispatch:
   push:
@@ -6,24 +7,33 @@ on:
       - v*
 
 jobs:
-  build: 
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-22.04
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
-      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/28.2.13676358
+      NDK_VERSION: 28.2.13676358
       JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
     steps:
-      - name: "Checkout repo"
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Install Dependencies
-        run: | 
+        run: |
           sudo apt-get update && \
           sudo apt-get install -y \
             build-essential ninja-build pkg-config perl python3 openjdk-17-jdk \
             libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
             libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
-            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
+            libssl-dev libdbus-1-dev libpulse-dev flex bison gperf \
+            clang libclang-dev wget unzip
+
+      - name: Cache Android SDK and NDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.ANDROID_SDK_ROOT }}
+          key: android-sdk-ndk-${{ env.NDK_VERSION }}-${{ hashFiles('**/build.gradle') }}
+          restore-keys: android-sdk-ndk-${{ env.NDK_VERSION }}-
 
       - name: Android SDK & NDK einrichten
         run: |
@@ -39,13 +49,13 @@ jobs:
           fi
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.2.13676358"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;${{ env.NDK_VERSION }}"
 
       - name: Exportiere Umgebungsvariablen
         run: |
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
-          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
-          echo "JAVA_HOME=$JAVA_HOME/bin" >> $GITHUB_ENV
+          echo "ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/${{ env.NDK_VERSION }}" >> $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
       - name: Get OpenSSL
         run: |
@@ -53,14 +63,15 @@ jobs:
           wget https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
           unzip master.zip
           mv android_openssl-master android_openssl
+          ls -la $ANDROID_SDK_ROOT/android_openssl  # Für Debugging: Zeige Ordnerstruktur
 
       - name: Qt-Quellcode klonen und Version 5.15.17 auschecken
         run: |
           cd $GITHUB_WORKSPACE
           git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
+          git checkout v5.15.17-kde
           git submodule update --init --recursive
-          
 
       - name: Configure Qt for Android
         run: |
@@ -68,7 +79,10 @@ jobs:
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
             -c++std c++17 \
-            -ssl -openssl-runtime -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1"\
+            -release \
+            -ssl -openssl-linked \
+            -I $ANDROID_SDK_ROOT/android_openssl/ssl/include \
+            -L $ANDROID_SDK_ROOT/android_openssl/static \
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
@@ -78,29 +92,33 @@ jobs:
             -opensource -confirm-license \
             -skip qtlocation -skip qtmultimedia -skip qtpurchasing -skip qtwebengine -skip qtwebglplugin
 
-      - name: build Qt Android
+      - name: Build Qt Android
         run: |
           cd qt5/build-android
           make -j$(nproc)
 
-      - name: install Qt Android
+      - name: Install Qt Android
         run: |
           cd qt5/build-android
           make -j$(nproc) install
 
-      - name: "Archive Build"
+      - name: Verify Qt Version
+        run: |
+          /home/runner/work/Qt5.15.17/android/bin/qmake -v  # Überprüft die installierte Version
+
+      - name: Archive Build
         uses: actions/upload-artifact@v4
         with:
-          name: Archive Build
+          name: Qt-5.15.17-Android
           path: /home/runner/work/Qt5.15.17/android
 
-      - name: "Tar Build"
-        run: tar -czvf Qt-5.15-17-android.tar.gz -C /home/runner/work/Qt5.15.17/android .
+      - name: Tar Build
+        run: tar -czvf Qt-5.15.17-android.tar.gz -C /home/runner/work/Qt5.15.17/android .
 
-      - name: "Upload Build to release"
+      - name: Upload Build to Release
         if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
-          file: Qt-5.15-17-android.tar.gz
+          file: Qt-5.15.17-android.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
