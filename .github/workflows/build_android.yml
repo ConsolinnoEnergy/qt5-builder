@@ -70,7 +70,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
-          git checkout v5.15.17-kde
           git submodule update --init --recursive
 
       - name: Configure Qt for Android
