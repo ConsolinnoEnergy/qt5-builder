@@ -3,7 +3,7 @@
 set -e
 ROOT_DIR=$(pwd)
 cd ..
-wget https://download.qt.io/official_releases/qt/5.15/5.15.14/single/qt-everywhere-opensource-src-5.15.14.tar.xz
+wget https://download.qt.io/archive/qt/5.15/5.15.14/single/qt-everywhere-opensource-src-5.15.14.tar.xz
 tar xfv qt-everywhere-opensource-src-5.15.14.tar.xz
 cd qt-everywhere-src-5.15.14
 # Quick and dirty patch. Should be done using a patch file, when things are running.
