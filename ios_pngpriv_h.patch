@@ -123,14 +123,6 @@
  #define PNG_IS_READ_STRUCT        0x8000U /* Else is a write struct */
  
  /* Flags for the transformations the PNG library does on the image data */
-@@ -857,7 +889,6 @@
- #define png_sBIT PNG_U32(115,  66,  73,  84)
- #define png_sCAL PNG_U32(115,  67,  65,  76)
- #define png_sPLT PNG_U32(115,  80,  76,  84)
--patch: **** malformed patch at line 30: @@ -205,6 +217,14 @@
- #define png_sRGB PNG_U32(115,  82,  71,  66)
- #define png_sTER PNG_U32(115,  84,  69,  82)
- #define png_tEXt PNG_U32(116,  69,  88, 116)
 @@ -1307,7 +1338,7 @@
      row_info, png_bytep row, png_const_bytep prev_row),PNG_EMPTY);
  #endif
