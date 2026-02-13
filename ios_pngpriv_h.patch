@@ -1,7 +1,7 @@
-diff --git a/src/3rdparty/libpng/pngpriv.h b/src/3rdparty/libpng/pngpriv.h
+diff --git a/qtbase/src/3rdparty/libpng/pngpriv.h b/qtbase/src/3rdparty/libpng/pngpriv.h
 index 7c19373f0b87..3a3e9d3564d1 100644
---- a/src/3rdparty/libpng/pngpriv.h
-+++ b/src/3rdparty/libpng/pngpriv.h
+--- a/qtbase/src/3rdparty/libpng/pngpriv.h
++++ b/qtbase/src/3rdparty/libpng/pngpriv.h
 @@ -1,7 +1,7 @@
  
  /* pngpriv.h - private declarations for use inside libpng
