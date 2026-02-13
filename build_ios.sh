@@ -19,7 +19,7 @@ echo "=== Full content of pngpriv.h before patch ==="
 cat qtbase/src/3rdparty/libpng/pngpriv.h
 echo "=== End of pngpriv.h content ==="
 echo "=== Applying patch with verbose output ==="
-patch -p1 --verbose --debug < $ROOT_DIR/ios_pngpriv_h.patch || {
+patch -p1 --verbose < $ROOT_DIR/ios_pngpriv_h.patch || {
   echo "=== Patch failed! Showing reject files ==="
   find . -name "*.rej" -exec echo "File: {}" \; -exec cat {} \;
   exit 1
