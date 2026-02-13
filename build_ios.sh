@@ -18,8 +18,12 @@ cd qt-everywhere-src-5.15.14
 echo "=== Full content of pngpriv.h before patch ==="
 cat qtbase/src/3rdparty/libpng/pngpriv.h
 echo "=== End of pngpriv.h content ==="
-echo "=== Applying patch ==="
-patch -p1 < $ROOT_DIR/ios_pngpriv_h.patch
+echo "=== Applying patch with verbose output ==="
+patch -p1 --verbose --debug < $ROOT_DIR/ios_pngpriv_h.patch || {
+  echo "=== Patch failed! Showing reject files ==="
+  find . -name "*.rej" -exec echo "File: {}" \; -exec cat {} \;
+  exit 1
+}
 ./configure QMAKE_APPLE_DEVICE_ARCHS="arm64" -opensource -confirm-license -nomake examples -nomake tests -xplatform macx-ios-clang -release -no-openssl -securetransport -skip qtlocation -prefix /Users/runner/work/qt5-builder/QtBuild
 
 make -j$(sysctl -n hw.ncpu)
