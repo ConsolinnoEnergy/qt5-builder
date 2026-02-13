@@ -9,6 +9,8 @@ cd qt-everywhere-src-5.15.14
 # Quick and dirty patch. Should be done using a patch file, when things are running.
 # See https://decovar.dev/blog/2018/02/17/build-qt-statically/
 sed -i'' -e 's/unary_function/__unary_function/' qtmultimedia/src/plugins/avfoundation/camera/avfcamerautility.mm
+# Fix for Xcode 16.2+ where fp.h has been removed
+find . -name "pngpriv.h" -exec sed -i'' -e '/#include <fp.h>/d' {} \;
 cd ..
 git clone https://github.com/ConsolinnoEnergy/qt-build-tools.git
 cd qt-build-tools && git checkout 197da8ca95d8552a65fb8de5274cb8f475961d7d && cd ..
