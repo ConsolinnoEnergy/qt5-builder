@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
-      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/22.1.7171670
-      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+      ANDROID_NDK_ROOT: ${{ github.workspace }}/android-sdk/ndk/28.2.13676358
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
         run: | 
           sudo apt-get update && \
           sudo apt-get install -y \
-            build-essential ninja-build pkg-config perl python3 openjdk-11-jdk \
+            build-essential ninja-build pkg-config perl python3 openjdk-17-jdk \
             libx11-dev libxext-dev libxrandr-dev libxi-dev libxrender-dev \
             libxfixes-dev libxcursor-dev libxtst-dev libgl-dev libglu-dev \
             libssl-dev libdbus-1-dev libpulse-dev flex bison gperf
@@ -39,7 +39,7 @@ jobs:
           fi
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;22.1.7171670"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.2.13676358"
 
       - name: Exportiere Umgebungsvariablen
         run: |
@@ -54,13 +54,14 @@ jobs:
           unzip master.zip
           mv android_openssl-master android_openssl
 
-      - name: Qt-Quellcode klonen und Version 5.15.17 auschecken
+      - name: Qt-Quellcode klonen und aktuellste Version 5.15 auschecken
         run: |
           cd $GITHUB_WORKSPACE
           git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           git submodule update --init --recursive
-          
+          # Apply direct drop-in replacement for obsolete function
+          sed -i 's/ALooper_pollAll/ALooper_pollOnce/g' qtsensors/src/plugins/sensors/android/sensormanager.cpp
 
       - name: Configure Qt for Android
         run: |
@@ -68,15 +69,18 @@ jobs:
           mkdir build-android && cd build-android
           ../configure -xplatform android-clang \
             -c++std c++17 \
+            -release \
             -ssl -openssl-runtime -I "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1/include" -L "/$ANDROID_SDK_ROOT/android_openssl/ssl_1.1"\
             -android-ndk $ANDROID_NDK_ROOT \
             -android-sdk $ANDROID_SDK_ROOT \
             -android-ndk-host linux-x86_64 \
-            -prefix /home/runner/work/Qt5.15.17/android \
+            -prefix /home/runner/work/Qt5.15.18/android \
             -no-warnings-are-errors --disable-rpath \
             -nomake examples -nomake tests \
             -opensource -confirm-license \
-            -skip qtlocation -skip qtmultimedia -skip qtpurchasing -skip qtwebengine -skip qtwebglplugin -silent
+            -skip qtlocation -skip qtmultimedia -skip qtpurchasing -skip qtwebengine -skip qtwebglplugin \
+            -device-option QMAKE_LFLAGS="-Wl,-z,max-page-size=16384" \
+            -silent
 
       - name: build Qt Android
         run: |
@@ -92,15 +96,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Archive Build
-          path: /home/runner/work/Qt5.15.17/android
+          path: /home/runner/work/Qt5.15.18/android
 
       - name: "Tar Build"
-        run: tar -czvf Qt-5.15-17-android.tar.gz -C /home/runner/work/Qt5.15.17/android .
+        run: tar -czvf Qt-5.15-18-android.tar.gz -C /home/runner/work/Qt5.15.18/android .
 
       - name: "Upload Build to release"
         if: github.ref_type == 'tag'
         uses: svenstaro/upload-release-action@v2
         with:
-          file: Qt-5.15-17-android.tar.gz
+          file: Qt-5.15-18-android.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
