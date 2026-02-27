@@ -60,6 +60,7 @@ jobs:
           git clone --branch kde/5.15 https://invent.kde.org/qt/qt/qt5.git
           cd qt5
           git submodule update --init --recursive
+          # Apply direct drop-in replacement for obsolete function
           sed -i 's/ALooper_pollAll/ALooper_pollOnce/g' qtsensors/src/plugins/sensors/android/sensormanager.cpp
 
       - name: Configure Qt for Android
